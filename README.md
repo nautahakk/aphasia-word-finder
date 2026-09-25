@@ -1,8 +1,8 @@
-# Word Finder
+# Aphasia Word Finder
 
 **For people with aphasia: describe the word you can't find, any way you can. Tap the right guess. Hear it said.**
 
-**Try it: [word-finder-bay.vercel.app](https://word-finder-bay.vercel.app)** (voice works in Chrome, Edge and Safari; typing works everywhere)
+**Try it: [aphasia-word-finder.vercel.app](https://aphasia-word-finder.vercel.app)** (voice works in Chrome, Edge and Safari; typing works everywhere)
 
 After a stroke, many people with aphasia know exactly what they mean but can't get the word out:
 *"the hot thing… you drink it… morning… brown"*. Word Finder listens while they talk around the word
