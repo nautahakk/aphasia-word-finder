@@ -4,6 +4,8 @@
 
 **Try it: [aphasia-word-finder.vercel.app](https://aphasia-word-finder.vercel.app)** (voice works in Chrome, Edge and Safari; typing works everywhere)
 
+Built with [Claude Code](https://claude.com/claude-code) and [Jev](https://docs.typesafe.ai).
+
 After a stroke, many people with aphasia know exactly what they mean but can't get the word out:
 *"the hot thing… you drink it… morning… brown"*. Word Finder listens while they talk around the word
 and shows its best guesses as big picture tiles. They tap the right one and the tablet says it out loud.
@@ -26,7 +28,7 @@ Personal words ("My words", top right): family add the people, pets and places t
 
 ## Test results
 
-A separate AI agent wrote 105 descriptions imitating aphasic speech the way speech-to-text would transcribe it: fillers, false starts, wrong related words ("the cat no no the one that barks"), sound-alike errors ("a tup of tea"), very short fragments, and five hopeless ones ("this one here you know"). It never saw how the app works. Results with the app's own code (`npm run eval`, full breakdown in [eval/RESULTS.md](eval/RESULTS.md)):
+A separate Claude agent wrote 105 descriptions imitating aphasic speech the way speech-to-text would transcribe it: fillers, false starts, wrong related words ("the cat no no the one that barks"), sound-alike errors ("a tup of tea"), very short fragments, and five hopeless ones ("this one here you know"). It never saw how the app works. Results with the app's own code (`npm run eval`, full breakdown in [eval/RESULTS.md](eval/RESULTS.md)):
 
 | | First guess right | Right word in the top 3 tiles |
 |---|---|---|
@@ -76,6 +78,7 @@ scripts/         builds public/pictos.json (word → ARASAAC symbol id)
 
 ## Credits
 
+- Built with **Claude** by Anthropic, in [Claude Code](https://claude.com/claude-code). Claude Opus 5.5 wrote the code, the tests and this README. A separate Claude Sonnet 5 agent that never saw the code wrote the blind test set.
 - Pictograms: **ARASAAC** (https://arasaac.org), author Sergio Palao, property of the Government of Aragón (Spain), licensed **CC BY-NC-SA 4.0**. Non-commercial use only; loaded from ARASAAC's servers.
 - Guessing: **Jev** by TypeSafe.
 - Microphone icon: [Lucide](https://lucide.dev) (ISC). Font: [Atkinson Hyperlegible](https://www.brailleinstitute.org/freefont/) by the Braille Institute (OFL).
