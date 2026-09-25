@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Word Finder</title>
+  <meta name="description" content="For people with aphasia: describe the word you can't find, any way you can. Tap the right guess and hear it said.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <p class="brand__name">Word Finder</p>
+      <p class="brand__tag">Say it the long way. Tap the right word. Hear it said.</p>
+    </div>
+    <button id="open-words" class="btn btn--quiet" type="button">My words <span id="words-count" class="count"></span></button>
+  </header>
+
+  <main class="layout">
+    <h1 class="visually-hidden">Find a word</h1>
+
+    <section class="panel panel--mic" aria-label="Talk">
+      <button id="mic" class="mic" type="button" aria-pressed="false" aria-labelledby="mic-label">
+        <svg class="mic__icon mic__icon--talk" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+        <svg class="mic__icon mic__icon--stop" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><rect width="14" height="14" x="5" y="5" rx="2"/></svg>
+        <span id="mic-label">Tap to talk</span>
+      </button>
+      <p id="no-voice" class="note" hidden>Voice doesn't work in this browser. Type it instead: voice works in Chrome, Edge and Safari.</p>
+      <p id="status" class="status" role="status" aria-live="polite">Tap the button, then describe the word you can't find. Say anything about it.</p>
+      <div class="heard">
+        <h2 class="label">I heard</h2>
+        <p id="heard" class="heard__text">—</p>
+      </div>
+    </section>
+
+    <section class="panel panel--guesses" aria-labelledby="guesses-h">
+      <h2 id="guesses-h" class="guesses__title">Is it…?</h2>
+      <div id="said" class="said" hidden>
+        <p class="said__word" id="said-word"></p>
+        <p class="said__who" id="said-who" hidden></p>
+        <div class="row">
+          <button id="again" class="btn btn--primary" type="button">Say it again</button>
+          <button id="not-it" class="btn btn--quiet" type="button">Not it</button>
+        </div>
+      </div>
+      <div id="tiles" class="tiles"></div>
+      <p id="empty" class="empty">Guesses appear here while you talk.</p>
+    </section>
+
+    <section class="panel panel--type" aria-label="Type instead">
+      <form id="type-form" class="type">
+        <label for="typed" class="label">Or type it</label>
+        <textarea id="typed" rows="2" placeholder="the hot thing you drink in the morning" autocomplete="off"></textarea>
+        <div class="row">
+          <button class="btn btn--primary" type="submit">Find the word</button>
+          <button id="clear" class="btn btn--quiet" type="button">Start over</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel panel--examples" aria-labelledby="examples-h">
+      <h2 id="examples-h" class="label">Try an example</h2>
+      <div id="examples" class="chips"></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p><strong>A demo, not a medical device.</strong> It only picks from a list of about 900 everyday words plus your own words. It never makes a word up, and you always choose.</p>
+    <p>Tested on 100 descriptions written to imitate aphasic speech: the right word was in the top 3 guesses 99 times. It has not yet been tested with people who have aphasia.</p>
+    <p>Privacy: your browser turns speech into text (Chrome uses Google's speech service for this). That text and your word list are sent to Jev, TypeSafe's model, to make the guesses. This site stores nothing. Your words and photos stay in this browser.</p>
+    <p>Pictures: <a href="https://arasaac.org">ARASAAC</a>, by Sergio Palao, property of the Government of Aragón, licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>.</p>
+  </footer>
+
+  <dialog id="words-dialog" class="dialog" aria-labelledby="words-h">
+    <div class="dialog__head">
+      <h2 id="words-h" class="dialog__title">My words</h2>
+      <form method="dialog"><button class="btn btn--quiet" type="submit">Close</button></form>
+    </div>
+    <p class="dialog__intro">Add the people, pets and places you talk about. Say who or what each one is, so the guesses can find them.</p>
+    <ul id="words-list" class="words"></ul>
+    <form id="add-word" class="add">
+      <h3 class="label">Add a word</h3>
+      <label for="new-word">Name or word</label>
+      <input id="new-word" required maxlength="40" autocomplete="off" placeholder="Margaret">
+      <label for="new-who">Who or what is it?</label>
+      <input id="new-who" maxlength="100" autocomplete="off" placeholder="my wife">
+      <label for="new-photo">Photo (optional)</label>
+      <input id="new-photo" type="file" accept="image/*">
+      <p id="add-error" class="error" role="alert" hidden></p>
+      <div class="row">
+        <button class="btn btn--primary" type="submit">Add</button>
+        <button id="reset-demo" class="btn btn--quiet" type="button">Reset to the demo words</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

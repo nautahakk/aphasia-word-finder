@@ -1,0 +1,17 @@
+{
+  "name": "word-finder",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Helps people with aphasia find the word they're looking for: describe it any way you can, tap the right guess, hear it said.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test",
+    "eval": "node eval/run.mjs",
+    "pictos": "node scripts/build-pictos.mjs"
+  }
+}
