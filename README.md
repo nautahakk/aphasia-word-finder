@@ -30,14 +30,16 @@ Personal words ("My words", top right): family add the people, pets and places t
 
 ## Test results
 
-A separate Claude agent wrote 105 descriptions imitating aphasic speech the way speech-to-text would transcribe it: fillers, false starts, wrong related words ("the cat no no the one that barks"), sound-alike errors ("a tup of tea"), very short fragments, and five hopeless ones ("this one here you know"). It never saw how the app works. Results with the app's own code (`npm run eval`, full breakdown in [eval/RESULTS.md](eval/RESULTS.md)):
+A separate Claude agent wrote 105 descriptions imitating aphasic speech the way speech-to-text would transcribe it: fillers, false starts, wrong related words ("the cat no no the one that barks"), sound-alike errors ("a tup of tea"), very short fragments, and five hopeless ones ("this one here you know"). It never saw how the app works. A second agent later wrote 65 in American English for the US word list, 27 of them aimed at words that differ from British English (sweater, faucet, trash can). Results with the app's own code (`npm run eval` and `npm run eval:us`, full breakdowns in [eval/RESULTS.md](eval/RESULTS.md) and [eval/RESULTS-us.md](eval/RESULTS-us.md)):
 
 | | First guess right | Right word in the top 3 tiles |
 |---|---|---|
-| Full description | **85%** | **99%** |
-| Halfway through the sentence | 57% | 77% |
+| UK, full description (100) | **85%** | **99%** |
+| UK, halfway through the sentence | 57% | 77% |
+| US, full description (60) | **87%** | **98%** |
+| US, halfway through the sentence | 60% | 78% |
 
-All 5 hopeless descriptions got "Not sure yet, keep going". The one miss out of 100: *"have you seen me airbrush"* (hairbrush). A guess takes about 0.5–1 s.
+All 10 hopeless descriptions got "Not sure yet, keep going". The one UK miss: *"have you seen me airbrush"* (hairbrush). The one US miss: *"the son was so bright today"* (sun), read as the speaker's son. A guess takes about 0.5–1 s.
 
 **The honest caveat:** this speech was *simulated*. Real aphasic speech can be much more broken up, and browser speech-to-text handles it worse. These numbers say "the idea works", not "it works for patients". The next step is testing with speech & language therapists.
 
