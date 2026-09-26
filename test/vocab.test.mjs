@@ -86,3 +86,17 @@ test("every American word made it into the US list (none lost to a clash)", () =
   assert.ok(US_PICTURE_WORDS.length > 100, String(US_PICTURE_WORDS.length));
   for (const w of US_PICTURE_WORDS) assert.ok(us.has(w), w);
 });
+
+test("everyday foods the first list missed are in both lists (hot dog)", () => {
+  for (const locale of ["uk", "us"]) {
+    const words = wordsFor(locale);
+    for (const w of ["hot dog", "bagel", "taco", "burrito", "waffle", "fried chicken", "Halloween"]) assert.ok(words.includes(w), `${locale}: ${w}`);
+  }
+});
+
+test("American staples are in the US list, and an ice lolly is a popsicle there", () => {
+  const us = wordsFor("us");
+  for (const w of ["mac and cheese", "grilled cheese", "iced tea", "root beer", "Fourth of July", "popsicle"]) assert.ok(us.includes(w), w);
+  assert.ok(!us.includes("ice lolly"));
+  assert.ok(wordsFor("uk").includes("ice lolly") && !wordsFor("uk").includes("mac and cheese"));
+});

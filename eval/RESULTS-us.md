@@ -6,12 +6,12 @@ Run: 2026-09-26 · model: jev-latest · US word list · 65 cases (60 answerable,
 
 | | First guess right | Right word in the top 3 tiles |
 |---|---|---|
-| Full description | 52/60 (87%) | 59/60 (98%) |
-| First half only (mid-sentence) | 36/60 (60%) | 47/60 (78%) |
+| Full description | 53/60 (88%) | 59/60 (98%) |
+| First half only (mid-sentence) | 35/60 (58%) | 48/60 (80%) |
 
 Unanswerable descriptions ("this one here you know") flagged as "keep going": 5/5
 
-Time for both requests: median 501 ms, 90th percentile 534 ms.
+Time for both requests: median 519 ms, 90th percentile 551 ms.
 
 ## By category (full description)
 
@@ -24,11 +24,11 @@ Time for both requests: median 501 ms, 90th percentile 534 ms.
 | stt-misheard | 3/4 | 3/4 |
 | very-short | 6/6 | 6/6 |
 | personal | 8/8 | 8/8 |
-| action | 3/5 | 5/5 |
+| action | 4/5 | 5/5 |
 | feeling | 3/3 | 3/3 |
 | time-weather | 3/3 | 3/3 |
 | confusable | 2/3 | 3/3 |
 
 ## Not in the top 3
 
-- **sun** · said: "the son was so bright today i needed my sunglasses" · got: smile (0.37), proud (0.18), David (0.17)
+- **sun** · said: "the son was so bright today i needed my sunglasses" · got: smile (0.42), proud (0.18), David (0.12)

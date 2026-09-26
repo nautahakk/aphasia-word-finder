@@ -23,6 +23,7 @@ test("hand-checked picture fixes are in place (no pothole for 'plant pot')", asy
   const uk = load("pictos.json");
   const us = load("pictos-us.json");
   for (const [w, id] of Object.entries(FIXED)) assert.equal(uk[w] ?? null, id, `UK ${w}`);
+  for (const [w, id] of Object.entries(FIXED_US)) assert.equal(us[w] ?? null, id, `US ${w}`);
   for (const [w, from] of US_FROM) {
     if (w in FIXED_US) assert.equal(us[w] ?? null, FIXED_US[w], `US ${w}`);
     else if (from in FIXED) assert.equal(us[w] ?? null, FIXED[from], `US ${w} (from ${from})`);

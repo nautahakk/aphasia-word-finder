@@ -24,7 +24,7 @@ and shows its best guesses as big picture tiles. They tap the right one and the 
 2. **Guessing:** [Jev](https://docs.typesafe.ai), TypeSafe's *System One* model. Instead of writing text, it answers multiple-choice questions with probabilities. One question can hold 255 options, so the vocabulary is split into 6 slices: one request asks all 6 at once, a second request picks between the ~24 best. About half a second to a second in total.
 3. **Pictures and voice:** [ARASAAC](https://arasaac.org) symbols (the kind used in speech therapy) on every tile, and the browser's text-to-speech.
 
-**UK or US English:** the page picks the word list, speech recognition and voice from the browser's language, with a switch at the top. The US list swaps 123 British words for American ones (jumper → sweater, biscuit → cookie, lorry → truck, mum → mom) and adds a few (football, baseball, Thanksgiving). Words that mean something different in each country ("chips", "purse", "surgery") get the right picture in each.
+**UK or US English:** the page picks the word list, speech recognition and voice from the browser's language, with a switch at the top. The US list swaps 123 British words for American ones (jumper → sweater, biscuit → cookie, lorry → truck, mum → mom) and adds American staples (mac and cheese, iced tea, football, Thanksgiving). Words that mean something different in each country ("chips", "purse", "surgery") get the right picture in each.
 
 Personal words ("My words", top right): family add the people, pets and places the person talks about, with who each one is ("Margaret: my wife") and an optional photo. They're stored only in that browser.
 
@@ -34,12 +34,12 @@ A separate Claude agent wrote 105 descriptions imitating aphasic speech the way 
 
 | | First guess right | Right word in the top 3 tiles |
 |---|---|---|
-| UK, full description (100) | **85%** | **99%** |
-| UK, halfway through the sentence | 57% | 77% |
-| US, full description (60) | **87%** | **98%** |
-| US, halfway through the sentence | 60% | 78% |
+| UK, full description (100) | **84%** | **98%** |
+| UK, halfway through the sentence | 61% | 79% |
+| US, full description (60) | **88%** | **98%** |
+| US, halfway through the sentence | 58% | 80% |
 
-All 10 hopeless descriptions got "Not sure yet, keep going". The one UK miss: *"have you seen me airbrush"* (hairbrush). The one US miss: *"the son was so bright today"* (sun), read as the speaker's son. A guess takes about 0.5–1 s.
+All 10 hopeless descriptions got "Not sure yet, keep going". The UK misses: *"have you seen me airbrush"* (hairbrush) and *"just the thing for me tea of a morning, the plain one"* (mug, it went for teabag). The one US miss: *"the son was so bright today"* (sun), read as the speaker's son. A guess takes about 0.5–1 s.
 
 **The honest caveat:** this speech was *simulated*. Real aphasic speech can be much more broken up, and browser speech-to-text handles it worse. These numbers say "the idea works", not "it works for patients". The next step is testing with speech & language therapists.
 
@@ -70,7 +70,7 @@ Deploying: it's ready for Vercel (`api/guess.mjs` + `public/`; `vercel.json` set
 - English only, UK or US. The US list started as the British one with words swapped, so it's the newer of the two.
 - Speech recognition on very disfluent speech is unknown territory.
 - Needs an internet connection (speech service + Jev).
-- A few words show initials instead of a picture: 8 have no ARASAAC symbol, and 3 had none that fit (a wrong picture is worse than none). Pictures for words with two meanings (toe, glasses, sink) were checked by hand.
+- A few words show initials instead of a picture: 8 have no ARASAAC symbol, and 5 had none that fit (a wrong picture is worse than none). Pictures for words with two meanings (toe, glasses, sink) were checked by hand.
 
 ## Project layout
 
@@ -84,7 +84,7 @@ scripts/         builds public/pictos.json + pictos-us.json (word → ARASAAC sy
 
 ## Credits
 
-- Built with **Claude** by Anthropic, in [Claude Code](https://claude.com/claude-code). Claude Opus 5.5 wrote the code, the tests and this README. A separate Claude Sonnet 5 agent that never saw the code wrote the blind test set.
+- Built with **Claude** by Anthropic, in [Claude Code](https://claude.com/claude-code). Claude Opus 5.5 wrote the code, the tests and this README. Separate Claude Sonnet 5 agents that never saw the code wrote the two blind test sets.
 - Pictograms: **ARASAAC** (https://arasaac.org), author Sergio Palao, property of the Government of Aragón (Spain), licensed **CC BY-NC-SA 4.0**. Non-commercial use only; loaded from ARASAAC's servers.
 - Guessing: **Jev** by TypeSafe.
 - Microphone icon: [Lucide](https://lucide.dev) (ISC). Font: [Atkinson Hyperlegible](https://www.brailleinstitute.org/freefont/) by the Braille Institute (OFL).
