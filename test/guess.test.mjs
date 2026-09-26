@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { findWord, TOP_PER_CHUNK } from "../lib/guess.mjs";
 import { buildChunks, NONE } from "../lib/vocab.mjs";
-import { DEMO_WORDS } from "../public/demo-words.js";
+import { DEMO_WORDS, DEMO_WORDS_US } from "../public/demo-words.js";
 
 // A fake TypeSafe API: each step answers one request, in order.
 function fakeApi(steps) {
@@ -81,4 +81,20 @@ test("says 'keep going' when Jev isn't sure, and shows at most 3 guesses", async
   const out = await findWord({ said: "the thing", personal: [], apiKey: "k", fetchImpl: api.fetchImpl });
   assert.equal(out.unsure, true);
   assert.ok(out.guesses.length <= 3);
+});
+
+test("US requests use the American word list and tell Jev it's American English", async () => {
+  const api = fakeApi([stage1("cookie"), stage2("cookie")]);
+  const out = await findWord({ said: "the sweet round thing you dunk", personal: DEMO_WORDS_US, locale: "us", apiKey: "k", fetchImpl: api.fetchImpl });
+  const options = Object.values(api.calls[0].questions).flatMap(optionsOf);
+  assert.ok(options.includes("cookie"));
+  assert.ok(!options.includes("biscuit"));
+  assert.equal(api.calls[0].state.speaks, "American English");
+  assert.equal(out.guesses[0].word, "cookie");
+});
+
+test("UK requests are sent exactly as in the blind test, with no dialect hint", async () => {
+  const api = fakeApi([stage1("kettle"), stage2("kettle")]);
+  await findWord({ said: "boil water", personal: [], apiKey: "k", fetchImpl: api.fetchImpl });
+  assert.deepEqual(Object.keys(api.calls[0].state).sort(), ["about_speaker", "said"]);
 });

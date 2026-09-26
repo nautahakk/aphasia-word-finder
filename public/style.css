@@ -62,10 +62,24 @@ a:focus-visible { outline: 4px solid var(--focus); outline-offset: 2px; border-r
 
 /* header */
 .top {
-  display: flex; align-items: center; justify-content: space-between; gap: var(--s-2);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-2);
   max-width: 1200px; margin: 0 auto; padding: var(--s-3) var(--s-2) 0;
 }
 .brand__name { font-size: var(--t-4); font-weight: 700; line-height: 1.2; }
+.top__actions { display: flex; align-items: center; gap: var(--s-1); }
+
+/* UK / US English switch */
+.lang { display: inline-flex; gap: var(--s-half); padding: var(--s-half); border: 2px solid var(--line-strong); border-radius: var(--r-1); background: var(--surface); }
+.lang__btn {
+  min-width: 56px; min-height: 44px; padding: 0 var(--s-2);
+  border: 0; border-radius: var(--s-half); background: transparent;
+  color: var(--ink); font: inherit; font-size: var(--t-1); font-weight: 700; cursor: pointer;
+  transition: var(--ease);
+}
+.lang__btn:hover { background: var(--bg); }
+.lang__btn:focus-visible { outline: 4px solid var(--focus); outline-offset: 2px; }
+.lang__btn[aria-pressed="true"] { background: var(--accent); color: #fff; }
+.lang__btn[aria-pressed="true"]:hover { background: var(--accent-hover); }
 .brand__tag { color: var(--muted); font-size: var(--t-1); }
 .count { color: var(--muted); font-weight: 400; }
 

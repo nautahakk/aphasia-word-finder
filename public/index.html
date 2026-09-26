@@ -22,7 +22,13 @@
       <p class="brand__name">Word Finder</p>
       <p class="brand__tag">Say it the long way. Tap the right word. Hear it said.</p>
     </div>
-    <button id="open-words" class="btn btn--quiet" type="button">My words <span id="words-count" class="count"></span></button>
+    <div class="top__actions">
+      <div class="lang" role="group" aria-label="English">
+        <button class="lang__btn" type="button" data-locale="uk" aria-pressed="true" aria-label="UK English">UK</button>
+        <button class="lang__btn" type="button" data-locale="us" aria-pressed="false" aria-label="US English">US</button>
+      </div>
+      <button id="open-words" class="btn btn--quiet" type="button">My words <span id="words-count" class="count"></span></button>
+    </div>
   </header>
 
   <main class="layout">
@@ -74,7 +80,7 @@
   </main>
 
   <footer class="foot">
-    <p><strong>A demo, not a medical device.</strong> It only picks from a list of about 900 everyday words plus your own words. It never makes a word up, and you always choose.</p>
+    <p><strong>A demo, not a medical device.</strong> It only picks from a list of about 900 everyday words (UK or US English) plus your own words. It never makes a word up, and you always choose.</p>
     <p>Tested on 100 descriptions written to imitate aphasic speech: the right word was in the top 3 guesses 99 times. It has not yet been tested with people who have aphasia.</p>
     <p>Privacy: your browser turns speech into text (Chrome uses Google's speech service for this). That text and your word list are sent to Jev, TypeSafe's model, to make the guesses. This site doesn't store what you say or type, and it counts visits anonymously (Vercel Web Analytics, no cookies). Your words and photos stay in this browser.</p>
     <p>Pictures: <a href="https://arasaac.org">ARASAAC</a>, by Sergio Palao, property of the Government of Aragón, licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>.</p>

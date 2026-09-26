@@ -14,7 +14,7 @@ and shows its best guesses as big picture tiles. They tap the right one and the 
 
 ## Why it can be trusted with this
 
-- **It never makes a word up.** It can only pick from a fixed list: about 900 everyday words plus the person's own names, pets and places.
+- **It never makes a word up.** It can only pick from a fixed list: about 900 everyday words (UK or US English) plus the person's own names, pets and places.
 - **The person always chooses.** Nothing is said until they tap a tile.
 - **It says when it isn't sure.** For "this one here, you know" it answers *"Not sure yet, keep going"* instead of guessing wildly.
 
@@ -23,6 +23,8 @@ and shows its best guesses as big picture tiles. They tap the right one and the 
 1. **Speech → text:** the browser's built-in speech recognition (Chrome, Edge, Safari). It keeps listening through long pauses.
 2. **Guessing:** [Jev](https://docs.typesafe.ai), TypeSafe's *System One* model. Instead of writing text, it answers multiple-choice questions with probabilities. One question can hold 255 options, so the vocabulary is split into 6 slices: one request asks all 6 at once, a second request picks between the ~24 best. About half a second to a second in total.
 3. **Pictures and voice:** [ARASAAC](https://arasaac.org) symbols (the kind used in speech therapy) on every tile, and the browser's text-to-speech.
+
+**UK or US English:** the page picks the word list, speech recognition and voice from the browser's language, with a switch at the top. The US list swaps 123 British words for American ones (jumper → sweater, biscuit → cookie, lorry → truck, mum → mom) and adds a few (football, baseball, Thanksgiving). Words that mean something different in each country ("chips", "purse", "surgery") get the right picture in each.
 
 Personal words ("My words", top right): family add the people, pets and places the person talks about, with who each one is ("Margaret: my wife") and an optional photo. They're stored only in that browser.
 
@@ -47,7 +49,8 @@ Needs Node 20+ and a TypeSafe API key ([typesafe.ai](https://typesafe.ai), early
 cp .env.example .env      # then put your TYPESAFE_API_KEY in .env
 npm start                 # http://localhost:4391
 npm test                  # unit tests, no network
-npm run eval              # re-runs the blind test (~420 API calls, a few cents)
+npm run eval              # re-runs the UK blind test (~420 API calls, a few cents)
+npm run eval:us           # the US blind test
 ```
 
 Deploying: it's ready for Vercel (`api/guess.mjs` + `public/`; `vercel.json` sets no framework so Vercel doesn't try to run `server.mjs`, which is only for local use). Set `TYPESAFE_API_KEY` in the project's environment variables; `DAILY_LIMIT` (default 20000 guesses a day) caps the bill. The limits are kept in memory, so they apply per server instance. The key never reaches the browser.
@@ -62,10 +65,10 @@ Deploying: it's ready for Vercel (`api/guess.mjs` + `public/`; `vercel.json` set
 ## Limitations
 
 - Not tested with people who have aphasia.
-- English only; the vocabulary is British-flavoured (tea, crisps, the bowls club).
+- English only, UK or US. The US list started as the British one with words swapped, so it's the newer of the two.
 - Speech recognition on very disfluent speech is unknown territory.
 - Needs an internet connection (speech service + Jev).
-- 8 of the ~900 words have no ARASAAC symbol and show initials instead.
+- A few words show initials instead of a picture: 8 have no ARASAAC symbol, and 3 had none that fit (a wrong picture is worse than none). Pictures for words with two meanings (toe, glasses, sink) were checked by hand.
 
 ## Project layout
 
@@ -74,7 +77,7 @@ public/          the page (no framework, no build step): index.html, style.css, 
 lib/             vocabulary, the two-step Jev method, input checks, rate limiting
 api/guess.mjs    Vercel function            server.mjs   local server (no dependencies)
 eval/            the blind test set + runner test/         unit tests (node --test)
-scripts/         builds public/pictos.json (word → ARASAAC symbol id)
+scripts/         builds public/pictos.json + pictos-us.json (word → ARASAAC symbol id); picto-fixes.mjs = hand-checked fixes
 ```
 
 ## Credits

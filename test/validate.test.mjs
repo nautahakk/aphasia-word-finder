@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { validateRequest, InputError, MAX_SAID } from "../lib/validate.mjs";
 
 test("cleans up whitespace", () => {
-  assert.deepEqual(validateRequest({ said: "  the  hot\nthing " }), { said: "the hot thing", personal: [] });
+  assert.deepEqual(validateRequest({ said: "  the  hot\nthing " }), { said: "the hot thing", personal: [], locale: "uk" });
 });
 
 test("rejects missing, empty or non-text input", () => {
@@ -38,4 +38,11 @@ test("drops broken personal entries and duplicates", () => {
     { word: "Margaret", who: "my wife" },
     { word: "Leo", who: "" },
   ]);
+});
+
+test("locale is 'us' or 'uk', and anything else means uk", () => {
+  assert.equal(validateRequest({ said: "x", locale: "us" }).locale, "us");
+  assert.equal(validateRequest({ said: "x" }).locale, "uk");
+  assert.equal(validateRequest({ said: "x", locale: "fr" }).locale, "uk");
+  assert.equal(validateRequest({ said: "x", locale: 5 }).locale, "uk");
 });

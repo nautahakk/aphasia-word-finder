@@ -41,3 +41,9 @@ test("passes cleaned input and the key to the finder", async () => {
   assert.equal(seen.apiKey, "k");
   assert.deepEqual(seen.personal, [{ word: "Leo", who: "grandson" }]);
 });
+
+test("passes the locale to the finder", async () => {
+  let seen;
+  await handleGuess({ body: { said: "x", locale: "us" }, env: ENV, find: async (args) => { seen = args; return okFind(); } });
+  assert.equal(seen.locale, "us");
+});

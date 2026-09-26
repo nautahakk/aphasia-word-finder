@@ -12,6 +12,7 @@
     "start": "node server.mjs",
     "test": "node --test",
     "eval": "node eval/run.mjs",
+    "eval:us": "node eval/run.mjs --us",
     "pictos": "node scripts/build-pictos.mjs"
   }
 }

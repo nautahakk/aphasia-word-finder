@@ -1,7 +1,10 @@
 // Word Finder - page logic. No framework, no build step.
-import { DEMO_WORDS } from "./demo-words.js";
+import { DEMO_WORDS, DEMO_WORDS_US } from "./demo-words.js";
 
 const STORE = "wordfinder.mywords.v1";
+const LOCALE_STORE = "wordfinder.locale";
+const LANG = { uk: "en-GB", us: "en-US" }; // word list, speech recognition and voice
+const DEMO = { uk: DEMO_WORDS, us: DEMO_WORDS_US };
 const MAX_WORDS = 60;
 const ASK_DELAY_MS = 700; // wait for a short pause before guessing
 const EXAMPLES = [
@@ -32,12 +35,15 @@ const els = {
   again: $("#again"), notIt: $("#not-it"), examples: $("#examples"),
   open: $("#open-words"), count: $("#words-count"), dialog: $("#words-dialog"), list: $("#words-list"),
   add: $("#add-word"), newWord: $("#new-word"), newWho: $("#new-who"), newPhoto: $("#new-photo"),
-  addError: $("#add-error"), reset: $("#reset-demo"),
+  addError: $("#add-error"), reset: $("#reset-demo"), locales: [...document.querySelectorAll("[data-locale]")],
 };
 
+const startLocale = detectLocale();
 const state = {
-  personal: loadWords(),
+  locale: startLocale,
+  personal: loadWords(startLocale),
   pictos: {},
+  pictosUS: {},     // American words, and ones that mean something else there ("chips", "purse")
   transcript: "",
   committed: "",   // speech from earlier recognition sessions (browsers stop after a silence)
   session: "",     // speech from the current session
@@ -52,13 +58,27 @@ const state = {
 };
 
 // ---------- storage ----------
-function loadWords() {
+// UK or US English: the visitor's earlier choice, else the browser's language.
+function detectLocale() {
+  try {
+    const saved = localStorage.getItem(LOCALE_STORE);
+    if (saved === "uk" || saved === "us") return saved;
+  } catch { /* storage blocked */ }
+  const english = (navigator.languages?.length ? navigator.languages : [navigator.language || ""]).find((l) => /^en\b/i.test(l)) || "";
+  return /^en-(US|CA)\b/i.test(english) ? "us" : "uk";
+}
+function loadWords(locale) {
   try {
     const saved = JSON.parse(localStorage.getItem(STORE));
     if (Array.isArray(saved)) return saved;
   } catch { /* blocked or corrupt storage: fall back to the demo */ }
-  return DEMO_WORDS.map((w) => ({ ...w }));
+  return DEMO[locale].map((w) => ({ ...w }));
 }
+function hasSavedWords() {
+  try { return localStorage.getItem(STORE) !== null; } catch { return false; }
+}
+const isDemo = (list, locale) => list.length === DEMO[locale].length
+  && list.every((p, i) => p.word === DEMO[locale][i].word && p.who === DEMO[locale][i].who && !p.photo);
 function saveWords() {
   try {
     localStorage.setItem(STORE, JSON.stringify(state.personal));
@@ -89,9 +109,9 @@ function speak(text) {
   if (!("speechSynthesis" in window)) return;
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = "en-GB";
+  u.lang = LANG[state.locale];
   u.rate = 0.9;
-  const voice = window.speechSynthesis.getVoices().find((v) => v.lang === "en-GB");
+  const voice = window.speechSynthesis.getVoices().find((v) => v.lang.replace("_", "-") === u.lang);
   if (voice) u.voice = voice;
   window.speechSynthesis.speak(u);
 }
@@ -106,7 +126,7 @@ function setupSpeech() {
     return;
   }
   const rec = new Recognition();
-  rec.lang = "en-GB";
+  rec.lang = LANG[state.locale];
   rec.continuous = true;
   rec.interimResults = true;
   rec.onresult = (e) => {
@@ -188,7 +208,7 @@ async function ask(text) {
     const res = await fetch("/api/guess", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ said, personal: state.personal.map(({ word, who }) => ({ word, who })) }),
+      body: JSON.stringify({ said, locale: state.locale, personal: state.personal.map(({ word, who }) => ({ word, who })) }),
       signal: controller.signal,
     });
     const data = await res.json().catch(() => ({}));
@@ -221,7 +241,7 @@ function picture(guess) {
     box.append(img);
     return box;
   }
-  const id = state.pictos[guess.word];
+  const id = (state.locale === "us" && state.pictosUS[guess.word]) || state.pictos[guess.word];
   if (id) {
     const img = new Image(96, 96);
     img.src = `https://static.arasaac.org/pictograms/${id}/${id}_300.png`;
@@ -371,20 +391,52 @@ function resetToDemo() {
   clearTimeout(resetArmed);
   resetArmed = null;
   els.reset.textContent = "Reset to the demo words";
-  state.personal = DEMO_WORDS.map((w) => ({ ...w }));
+  state.personal = DEMO[state.locale].map((w) => ({ ...w }));
   saveWords();
   renderWords();
 }
 
+// ---------- UK / US English ----------
+function renderLocale() {
+  document.documentElement.lang = LANG[state.locale];
+  for (const b of els.locales) b.setAttribute("aria-pressed", String(b.dataset.locale === state.locale));
+}
+
+function setLocale(locale) {
+  if (locale === state.locale) return;
+  // someone still on the demo words gets the demo for the other country
+  if (isDemo(state.personal, state.locale)) {
+    state.personal = DEMO[locale].map((w) => ({ ...w }));
+    if (hasSavedWords()) saveWords();
+  }
+  state.locale = locale;
+  try { localStorage.setItem(LOCALE_STORE, locale); } catch { /* storage blocked: choice lasts this visit */ }
+  renderLocale();
+  renderWords();
+  if (state.rec) {
+    state.rec.lang = LANG[locale];
+    if (state.listening) try { state.rec.stop(); } catch { /* restarts in the new language via onend */ }
+  }
+  if (state.transcript) { state.lastAsked = ""; askNow(); } // same description, other word list
+}
+
 // ---------- wiring ----------
 function init() {
+  // a saved list that's still the other country's demo follows the language too
+  const other = state.locale === "us" ? "uk" : "us";
+  if (isDemo(state.personal, other)) state.personal = DEMO[state.locale].map((w) => ({ ...w }));
+  renderLocale();
   setupSpeech();
   renderWords();
 
-  fetch("pictos.json")
+  const loadPictos = (file, key) => fetch(file)
     .then((r) => (r.ok ? r.json() : {}))
-    .then((map) => { state.pictos = map; if (state.results) renderTiles(); })
+    .then((map) => { state[key] = map; if (state.results) renderTiles(); })
     .catch(() => { /* tiles fall back to initials */ });
+  loadPictos("pictos.json", "pictos");
+  loadPictos("pictos-us.json", "pictosUS");
+
+  for (const b of els.locales) b.addEventListener("click", () => setLocale(b.dataset.locale));
 
   els.mic.addEventListener("click", () => (state.listening ? stopListening() : startListening()));
 

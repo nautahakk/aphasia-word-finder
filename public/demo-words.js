@@ -18,3 +18,22 @@ export const DEMO_WORDS = [
   { word: "Brighton", who: "the town where Sarah lives" },
   { word: "Spain", who: "where I go on holiday" },
 ];
+
+// The same Tom for American visitors (US English word list).
+export const DEMO_WORDS_US = [
+  { word: "Margaret", who: "my wife" },
+  { word: "David", who: "my son" },
+  { word: "Sarah", who: "my daughter, lives in San Diego" },
+  { word: "Leo", who: "my grandson, 8" },
+  { word: "Emma", who: "my granddaughter, 5" },
+  { word: "Biscuit", who: "our dog" },
+  { word: "Jean", who: "my next-door neighbor" },
+  { word: "Dr Patel", who: "my family doctor" },
+  { word: "St Mary's", who: "the church I go to" },
+  { word: "Murphy's", who: "the bar I go to" },
+  { word: "the bowling alley", who: "where I bowl on Tuesdays" },
+  { word: "Walmart", who: "where I buy my groceries" },
+  { word: "the Packers", who: "the football team I root for" },
+  { word: "San Diego", who: "the city where Sarah lives" },
+  { word: "Florida", who: "where I go on vacation" },
+];
