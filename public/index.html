@@ -10,6 +10,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script type="module" src="app.js"></script>
+  <!-- Vercel Web Analytics: counts page visits, no cookies. Only served on Vercel (404 locally). -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
   <header class="top">
@@ -71,7 +76,7 @@
   <footer class="foot">
     <p><strong>A demo, not a medical device.</strong> It only picks from a list of about 900 everyday words plus your own words. It never makes a word up, and you always choose.</p>
     <p>Tested on 100 descriptions written to imitate aphasic speech: the right word was in the top 3 guesses 99 times. It has not yet been tested with people who have aphasia.</p>
-    <p>Privacy: your browser turns speech into text (Chrome uses Google's speech service for this). That text and your word list are sent to Jev, TypeSafe's model, to make the guesses. This site stores nothing. Your words and photos stay in this browser.</p>
+    <p>Privacy: your browser turns speech into text (Chrome uses Google's speech service for this). That text and your word list are sent to Jev, TypeSafe's model, to make the guesses. This site doesn't store what you say or type, and it counts visits anonymously (Vercel Web Analytics, no cookies). Your words and photos stay in this browser.</p>
     <p>Pictures: <a href="https://arasaac.org">ARASAAC</a>, by Sergio Palao, property of the Government of Aragón, licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>.</p>
   </footer>
 

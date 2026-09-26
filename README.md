@@ -56,7 +56,8 @@ Deploying: it's ready for Vercel (`api/guess.mjs` + `public/`; `vercel.json` set
 
 - The browser turns speech into text. **Chrome does this on Google's servers.**
 - That text and the list of personal words (not photos) are sent to TypeSafe's API to make the guesses.
-- This app's server stores nothing. Personal words and photos stay in the browser (`localStorage`).
+- The server doesn't store what you say or type. Personal words and photos stay in the browser (`localStorage`).
+- Page visits are counted anonymously with [Vercel Web Analytics](https://vercel.com/docs/analytics/privacy-policy) (no cookies).
 
 ## Limitations
 
