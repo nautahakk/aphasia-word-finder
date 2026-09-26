@@ -2,7 +2,7 @@
 
 **For people with aphasia: describe the word you can't find, any way you can. Tap the right guess. Hear it said.**
 
-**Try it: [aphasia-word-finder.vercel.app](https://aphasia-word-finder.vercel.app)** (voice works in Chrome, Edge and Safari; typing works everywhere)
+**Try it: [aphasia.lucency.dev](https://aphasia.lucency.dev)** (voice works in Chrome, Edge and Safari; typing works everywhere)
 
 Built with [Claude Code](https://claude.com/claude-code) and [Jev](https://docs.typesafe.ai).
 
