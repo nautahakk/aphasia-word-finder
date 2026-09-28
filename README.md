@@ -34,12 +34,12 @@ A separate Claude agent wrote 105 descriptions imitating aphasic speech the way 
 
 | | First guess right | Right word in the top 3 tiles |
 |---|---|---|
-| UK, full description (100) | **84%** | **98%** |
-| UK, halfway through the sentence | 61% | 79% |
-| US, full description (60) | **88%** | **98%** |
-| US, halfway through the sentence | 58% | 80% |
+| UK, full description (100) | **84%** | **97%** |
+| UK, halfway through the sentence | 57% | 78% |
+| US, full description (60) | **87%** | **98%** |
+| US, halfway through the sentence | 62% | 78% |
 
-All 10 hopeless descriptions got "Not sure yet, keep going". The UK misses: *"have you seen me airbrush"* (hairbrush) and *"just the thing for me tea of a morning, the plain one"* (mug, it went for teabag). The one US miss: *"the son was so bright today"* (sun), read as the speaker's son. A guess takes about 0.5–1 s.
+All 10 hopeless descriptions got "Not sure yet, keep going". The UK misses: *"leo's coming get treats"* (sweets, it went for biscuit), *"starving when's tea"* (dinner, it went for hungry) and *"just the thing for me tea of a morning, the plain one"* (mug, it went for tea). The one US miss: *"the son was so bright today"* (sun), read as the speaker's son. A guess takes about 0.5–1 s.
 
 **The honest caveat:** this speech was *simulated*. Real aphasic speech can be much more broken up, and browser speech-to-text handles it worse. These numbers say "the idea works", not "it works for patients". The next step is testing with speech & language therapists.
 
