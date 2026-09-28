@@ -100,3 +100,15 @@ test("American staples are in the US list, and an ice lolly is a popsicle there"
   assert.ok(!us.includes("ice lolly"));
   assert.ok(wordsFor("uk").includes("ice lolly") && !wordsFor("uk").includes("mac and cheese"));
 });
+
+test("words for how the body feels after a stroke are in both lists", () => {
+  for (const locale of ["uk", "us"]) {
+    const words = wordsFor(locale);
+    for (const w of ["numb", "tingling", "pins and needles", "stiff", "weak", "shaky", "aching", "heavy", "cramp", "spasm", "balance", "grip"]) {
+      assert.ok(words.includes(w), `${locale}: ${w}`);
+    }
+  }
+  assert.equal(groupOf("numb"), "feeling");
+  assert.equal(groupOf("cramp"), "thing");
+  assert.equal(groupOf("grip"), "doing");
+});

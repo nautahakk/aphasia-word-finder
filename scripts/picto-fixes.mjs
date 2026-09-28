@@ -17,6 +17,7 @@ export const FIXED = {
   "TV programme": 29123, film: 24797, baking: 5487, Easter: 32478, toe: 26035, desk: 26071, bottom: 2730,
   call: 6518, fall: 6067, sink: 2399, sheet: 8367, suit: 39694, exercise: 10156, sore: 2367, post: 21828,
   cricket: null, "light switch": 2431, "maple syrup": 2962, "hash browns": null,
+  numb: null, "pins and needles": 34276, shaky: 7109, spasm: 37172, aching: 38423,
 };
 
 // American words that need their own fix.
